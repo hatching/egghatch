@@ -1,0 +1,2 @@
+graft egghatch
+recursive-exclude * *.pyc *.pyo

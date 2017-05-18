@@ -1,0 +1,5 @@
+.eggs
+*.pyc
+.cache
+dist
+egghatch.egg-info

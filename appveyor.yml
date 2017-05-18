@@ -1,0 +1,17 @@
+environment:
+  matrix:
+    - PYTHON: "C:/Python27"
+
+install:
+  - "set PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%"
+
+  - "python.exe setup.py develop"
+  - "pip.exe install codecov pytest pytest-cov pytest-pythonpath mock==2.0.0"
+
+build: false
+
+test_script:
+  - "pytest.exe --cov=egghatch"
+
+after_test:
+  - "codecov.exe"

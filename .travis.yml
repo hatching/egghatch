@@ -1,0 +1,19 @@
+language: python
+
+python:
+    - 2.7
+
+before_install:
+  - sudo apt-get update -qq
+
+install:
+  - pip install -U pip setuptools
+  - python setup.py develop
+  - pip install pytest pytest-cov codecov coveralls
+
+script:
+    - python setup.py test --addopts --cov=egghatch
+
+after_success:
+  - coveralls
+  - codecov
