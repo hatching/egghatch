@@ -5,7 +5,7 @@ environment:
 install:
   - "set PATH=%PYTHON%;%PYTHON%/Scripts;%PATH%"
 
-  - "python.exe setup.py develop"
+  - "pip.exe install -e ."
   - "pip.exe install codecov pytest pytest-cov pytest-pythonpath mock==2.0.0"
 
 build: false
