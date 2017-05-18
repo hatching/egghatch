@@ -37,8 +37,18 @@ setuptools.setup(
         ],
     },
     install_requires=[
-        "capstone==3.0.4",
     ],
+    extras_require={
+        ":sys_platform == 'win32'": [
+            "capstone-windows==3.0.4",
+        ],
+        ":sys_platform == 'darwin'": [
+            "capstone==3.0.4",
+        ],
+        ":sys_platform == 'linux2'": [
+            "capstone==3.0.4",
+        ],
+    },
     setup_requires=[
         "pytest-runner",
     ],
