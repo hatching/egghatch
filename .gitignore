@@ -3,3 +3,4 @@
 .cache
 dist
 egghatch.egg-info
+tags
