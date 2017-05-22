@@ -3,15 +3,18 @@
 # See the file 'docs/LICENSE' for copying permission.
 
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+from branch import Branch, is_branch
 
 class Shellcode:
     def __init__(self, payload):
         self.parser = Cs(CS_ARCH_X86, CS_MODE_32)
         self.payload = str(payload)
+        self.parsed = {}
+        self.text = []
 
     def analyze(self):
         # split executable code into basic blocks
-        self.text = self.basic_blocks()
+        self.text = self.basic_blocks(0)
         # extract untouched bytes as data strings
         self.data = self.extract_data()
 
@@ -26,21 +29,35 @@ class Shellcode:
                 (i.address, i.mnemonic, i.op_str)
         print "-" * 80
 
-    # TODO: implement recursive block disassembly
-    def basic_blocks(self):
-        blocks = []
-        block = []
-        for i in self.parser.disasm(self.payload, 0):
+    # recursively disassemble basic blocks
+    def basic_blocks(self, pos):
+        block, branch = self.get_block(pos)
+
+        # only traverse further for new blocks
+        if not self.parsed.get(pos, False):
+            self.text.append(block)
+            self.parsed[pos] = True
+
+            # recurse branch target(s)
+            if branch:
+                self.basic_blocks(branch.target)
+                self.basic_blocks(branch.ret_to)
+
+        return self.text
+
+    # disassemble until next branch instruction
+    def get_block(self, pos):
+        block, branch = [], None
+        for i in self.parser.disasm(self.payload[pos:], pos):
             block.append(i)
-            if self.is_branch(i):
-                break
-        blocks.append(block)
-        return blocks   
-
-    # TODO: implement all opcodes and get offset
-    def is_branch(self, i):
-        return i.mnemonic in ["call", "jmp"]
-
+            if is_branch(i):
+                try :
+                    branch = Branch(i)
+                    break
+                except ValueError:
+                    continue
+        return (block, branch)
+        
     # TODO: extract untouched bytes as data strings
     def extract_data(self):
         return "hax\n"
