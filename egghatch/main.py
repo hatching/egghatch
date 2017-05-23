@@ -18,5 +18,6 @@ def main():
     payload = sys.stdin.read()
     hatch = Shellcode(payload)
     
-    hatch.analyze()
-    
+    result = hatch.analyze()
+    for start, end in result['text']['blocks'].iteritems():
+        hatch.print_block(start, end)

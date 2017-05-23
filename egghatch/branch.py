@@ -2,7 +2,6 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 
 class Branch:
     def __init__(self, ins):

@@ -4,13 +4,19 @@
 
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from branch import Branch, is_branch
+from collections import OrderedDict
+from block import Block
+
 
 class Shellcode:
     def __init__(self, payload):
         self.parser = Cs(CS_ARCH_X86, CS_MODE_32)
+        self.text, self.data = [], []
+
         self.payload = str(payload)
         self.parsed = {}
-        self.text = []
+
+        self.analyze()
 
     def analyze(self):
         # split executable code into basic blocks
@@ -18,13 +24,18 @@ class Shellcode:
         # extract untouched bytes as data strings
         self.data = self.extract_data()
 
+        code_blocks = {}
         for block in self.text:
-            self.print_block(block)
+            code_blocks[block.base] = block.end
+
+        return {
+            'text': { 'blocks': code_blocks },
+            'data': { 'blocks': self.data }
+        }
 
     # TODO: define json output format for demo
-    def print_block(self, block):
-        print "-" * 80
-        for i in block:
+    def print_block(self, start, end):
+        for i in self.parser.disasm(self.payload[start:end+1], start):
             print "0x%04x: \t%s\t%s" % \
                 (i.address, i.mnemonic, i.op_str)
         print "-" * 80
@@ -47,17 +58,23 @@ class Shellcode:
 
     # disassemble until next branch instruction
     def get_block(self, pos):
-        block, branch = [], None
+        block, branch = None, None
+        cur = pos
         for i in self.parser.disasm(self.payload[pos:], pos):
-            block.append(i)
+            if self.parsed.get(cur, False):
+                break
+            cur += len(i.bytes)
+            block = Block(pos, cur)
             if is_branch(i):
                 try :
                     branch = Branch(i)
                     break
                 except ValueError:
                     continue
-        return (block, branch)
+
+        return block, branch
         
     # TODO: extract untouched bytes as data strings
     def extract_data(self):
-        return "hax\n"
+        return None
+
