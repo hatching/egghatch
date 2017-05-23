@@ -6,8 +6,8 @@ from shellcode import Shellcode
 import sys
 
 def usage():
-    print '''usage:
-        echo -en "\\xcc\\xcc" | egghatch''' 
+    print """usage:
+        echo -en \"\\xcc\\xcc\" | egghatch"""
     sys.exit(-1)
 
 def main():
@@ -19,5 +19,5 @@ def main():
     hatch = Shellcode(payload)
     
     result = hatch.analyze()
-    for start, end in result['text']['blocks'].iteritems():
+    for start, end in result["text"]["blocks"].iteritems():
         hatch.print_block(start, end)

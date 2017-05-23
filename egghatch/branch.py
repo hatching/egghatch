@@ -3,16 +3,34 @@
 # See the file 'docs/LICENSE' for copying permission.
 
 
+class BranchException:
+    pass
+
+
 class Branch:
     def __init__(self, ins):
+        self.ins = ins
+        if not self.is_branch():
+            raise BranchException('not a branch instruction')
+
+        # TODO: this is hacky
         self.target = int(ins.op_str.encode()[2:], 16)
-        self.ret_to = ins.address + len(ins.bytes)
-    
+        if self.is_conditional():
+            self.ret_to = ins.address + len(ins.bytes)
+
+    # TODO: this is hacky
+    def is_branch(self):
+        return self.ins.mnemonic in ["call", "jmp", "jl", "jne", "jecxz"]
+
+    # TODO: this is hacky
+    def is_conditional(self):
+        return self.ins.mnemonic in ["jl", "jne", "jecxz"]
+
     def children(self):
-        return (self.target, self.ret_to)
+        target, ret_to = self.target, None
+        if self.is_conditional():
+            ret_to = self.ret_to
+        return target, ret_to
 
 
-# TODO: implement all opcodes and get offset
-def is_branch(i):
-    return i.mnemonic in ["call", "jmp", "jl", "jne", "jecxz"]
 

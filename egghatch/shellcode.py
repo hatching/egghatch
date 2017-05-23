@@ -3,8 +3,7 @@
 # See the file 'docs/LICENSE' for copying permission.
 
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-from branch import Branch, is_branch
-from collections import OrderedDict
+from branch import Branch, BranchException
 from block import Block
 
 
@@ -15,8 +14,6 @@ class Shellcode:
 
         self.payload = str(payload)
         self.parsed = {}
-
-        self.analyze()
 
     def analyze(self):
         # split executable code into basic blocks
@@ -29,16 +26,13 @@ class Shellcode:
             code_blocks[block.base] = block.end
 
         return {
-            'text': { 'blocks': code_blocks },
-            'data': { 'blocks': self.data }
+            "text": { "blocks": code_blocks },
+            "data": { "blocks": self.data }
         }
 
     # TODO: define json output format for demo
     def print_block(self, start, end):
-        for i in self.parser.disasm(self.payload[start:end+1], start):
-            print "0x%04x: \t%s\t%s" % \
-                (i.address, i.mnemonic, i.op_str)
-        print "-" * 80
+        print "[+] code block [0x%04x - 0x%04x]" % (start, end)
 
     # recursively disassemble basic blocks
     def basic_blocks(self, pos):
@@ -51,8 +45,8 @@ class Shellcode:
 
             # recurse branch target(s)
             if branch:
-                self.basic_blocks(branch.target)
-                self.basic_blocks(branch.ret_to)
+                for b in branch.children():
+                    self.basic_blocks(b)
 
         return self.text
 
@@ -65,12 +59,14 @@ class Shellcode:
                 break
             cur += len(i.bytes)
             block = Block(pos, cur)
-            if is_branch(i):
-                try :
-                    branch = Branch(i)
-                    break
-                except ValueError:
-                    continue
+            try :
+                branch = Branch(i)
+                break
+            except BranchException:
+                continue
+            except TypeError:
+                # TODO: this is hacky
+                continue
 
         return block, branch
         
