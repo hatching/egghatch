@@ -14,6 +14,7 @@ $ cat tests/files/plain/sd.bin | egghatch
 
 
 def test_sd():
+    # http://shell-storm.org/shellcode/files/shellcode-554.php
     with open('files/plain/sd.bin') as sd:
         sc = Shellcode(sd.read())
 
