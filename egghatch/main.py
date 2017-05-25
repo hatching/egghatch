@@ -4,6 +4,7 @@
 
 from shellcode import Shellcode
 import sys
+import json
 
 def usage():
     print """usage:
@@ -17,7 +18,4 @@ def main():
  
     payload = sys.stdin.read()
     hatch = Shellcode(payload)
-    
-    result = hatch.analyze()
-    for start, end in result["text"]["blocks"].iteritems():
-        hatch.print_block(start, end)
+    print hatch.print_json()

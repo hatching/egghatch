@@ -5,6 +5,7 @@
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32
 from branch import Branch, BranchException
 from block import Block
+import json
 
 
 class Shellcode:
@@ -21,6 +22,7 @@ class Shellcode:
         # extract untouched bytes as data strings
         self.data = self.extract_data()
 
+        # TODO: use Block class
         code_blocks = {}
         for block in self.text:
             code_blocks[block.base] = block.end
@@ -30,9 +32,22 @@ class Shellcode:
             "data": { "blocks": self.data }
         }
 
-    # TODO: define json output format for demo
     def print_block(self, start, end):
         print "[+] code block [0x%04x - 0x%04x]" % (start, end)
+
+    def print_json(self):
+        json_result = {}
+        for start, end in self.analyze()["text"]["blocks"].iteritems():
+            json_result[start] = self.json_block(start, end)
+        return json.dumps(json_result, indent=4)
+
+
+    # TODO: move this to Block class
+    def json_block(self, start, end):
+        json_block = []
+        for i in self.parser.disasm(self.payload[start:end], start):
+            json_block.append([i.address, {"ins": i.mnemonic, "arg": i.op_str}])
+        return dict(json_block)
 
     # recursively disassemble basic blocks
     def basic_blocks(self, pos):
