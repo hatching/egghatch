@@ -2,4 +2,4 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-from egghatch.main import parse
+from egghatch.main import parse, as_text
