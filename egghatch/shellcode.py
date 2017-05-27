@@ -31,13 +31,13 @@ class Shellcode(object):
     def to_dict(self):
         ret = {
             "bbl": [],
-            "text": {},
+            "text": [],
             "data": [],
         }
         self.analyze()
         for block in self.text:
             ret["bbl"].append((block.base, block.end))
-            ret["text"][block.base] = block.to_dict()
+            ret["text"].extend(block.to_dict())
         for idx, data in sorted(self.data.items()):
             ret["data"].append((idx, data.decode("latin1")))
         return ret
