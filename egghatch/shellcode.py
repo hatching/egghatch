@@ -2,15 +2,15 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-from capstone import Cs, CS_ARCH_X86, CS_MODE_32
-from branch import Branch, BranchException
-from block import Block
+import capstone
 import json
 
+from egghatch.branch import Branch, BranchException
+from egghatch.block import Block
 
-class Shellcode:
+class Shellcode(object):
     def __init__(self, payload):
-        self.parser = Cs(CS_ARCH_X86, CS_MODE_32)
+        self.parser = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
         self.text, self.data = [], []
 
         self.payload = str(payload)
@@ -28,26 +28,31 @@ class Shellcode:
             code_blocks[block.base] = block.end
 
         return {
-            "text": { "blocks": code_blocks },
-            "data": { "blocks": self.data }
+            "text": {
+                "blocks": code_blocks,
+            },
+            "data": {
+                "blocks": self.data,
+            },
         }
 
     def print_block(self, start, end):
         print "[+] code block [0x%04x - 0x%04x]" % (start, end)
 
-    def print_json(self):
-        json_result = {}
-        for start, end in self.analyze()["text"]["blocks"].iteritems():
-            json_result[start] = self.json_block(start, end)
-        return json.dumps(json_result, indent=4)
-
+    def to_json(self):
+        ret = {}
+        for start, end in self.analyze()["text"]["blocks"].items():
+            ret[start] = self.to_dict(start, end)
+        return json.dumps(ret, indent=4)
 
     # TODO: move this to Block class
-    def json_block(self, start, end):
-        json_block = []
+    def to_dict(self, start, end):
+        ret = {}
         for i in self.parser.disasm(self.payload[start:end], start):
-            json_block.append([i.address, {"ins": i.mnemonic, "arg": i.op_str}])
-        return dict(json_block)
+            ret[i.address] = {
+                "ins": i.mnemonic, "arg": i.op_str
+            }
+        return dict(ret)
 
     # recursively disassemble basic blocks
     def basic_blocks(self, pos):
@@ -74,7 +79,7 @@ class Shellcode:
                 break
             cur += len(i.bytes)
             block = Block(pos, cur)
-            try :
+            try:
                 branch = Branch(i)
                 break
             except BranchException:
@@ -84,8 +89,7 @@ class Shellcode:
                 continue
 
         return block, branch
-        
+
     # TODO: extract untouched bytes as data strings
     def extract_data(self):
         return None
-

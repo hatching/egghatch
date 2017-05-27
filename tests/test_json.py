@@ -1,51 +1,50 @@
 # Copyright (C) 2017 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
-# See the file 'docs/LICENSE' for copying permission.
+# See the file "docs/LICENSE" for copying permission.
 
-import pytest
-from egghatch.shellcode import Shellcode
 import json
 
+from egghatch.shellcode import Shellcode
 
 def test_sd():
     # http://shell-storm.org/shellcode/files/shellcode-554.php
-    with open('files/plain/sd.bin') as sd:
+    with open("tests/files/plain/sd.bin") as sd:
         sc = Shellcode(sd.read())
 
-    assert json.loads(sc.print_json()) == {
-        '0' : {
-            '0': {u'arg': u'eax, eax', u'ins': u'xor'},
-            '2' : {u'arg': u'ebx, ebx', u'ins': u'xor'},
-            '4' : {u'arg': u'al, 2', u'ins': u'mov'},
-            '6' : {u'arg': u'0x80', u'ins': u'int'},
-            '8':  {u'arg': u'eax, ebx', u'ins': u'cmp'},
-            '10': {u'arg': u'0x39', u'ins': u'jne'},
+    assert json.loads(sc.to_json()) == {
+        "0": {
+            "0": {"arg": "eax, eax", "ins": "xor"},
+            "2": {"arg": "ebx, ebx", "ins": "xor"},
+            "4": {"arg": "al, 2", "ins": "mov"},
+            "6": {"arg": "0x80", "ins": "int"},
+            "8": {"arg": "eax, ebx", "ins": "cmp"},
+            "10": {"arg": "0x39", "ins": "jne"},
         },
-        '12': {
-            '12': {u'arg': u'eax, eax', u'ins': u'xor'},
-            '14': {u'arg': u'eax', u'ins': u'push'},
-            '15': {u'arg': u'0x462d', u'ins': u'push'},
-            '19': {u'arg': u'esi, esp', u'ins': u'mov'},
-            '21': {u'arg': u'eax', u'ins': u'push'},
-            '22': {u'arg': u'0x73656c62', u'ins': u'push'},
-            '27': {u'arg': u'0x61747069', u'ins': u'push'},
-            '32': {u'arg': u'0x2f6e6962', u'ins': u'push'},
-            '37': {u'arg': u'0x732f2f2f', u'ins': u'push'},
-            '42': {u'arg': u'ebx, esp', u'ins': u'mov'},
-            '44': {u'arg': u'edx, dword ptr [esp + 0x10]', u'ins': u'lea'},
-            '48': {u'arg': u'eax', u'ins': u'push'},
-            '49': {u'arg': u'esi', u'ins': u'push'},
-            '50': {u'arg': u'esp', u'ins': u'push'},
-            '51': {u'arg': u'ecx, esp', u'ins': u'mov'},
-            '53': {u'arg': u'al, 0xb', u'ins': u'mov'},
-            '55': {u'arg': u'0x80', u'ins': u'int'}
+        "12": {
+            "12": {"arg": "eax, eax", "ins": "xor"},
+            "14": {"arg": "eax", "ins": "push"},
+            "15": {"arg": "0x462d", "ins": "push"},
+            "19": {"arg": "esi, esp", "ins": "mov"},
+            "21": {"arg": "eax", "ins": "push"},
+            "22": {"arg": "0x73656c62", "ins": "push"},
+            "27": {"arg": "0x61747069", "ins": "push"},
+            "32": {"arg": "0x2f6e6962", "ins": "push"},
+            "37": {"arg": "0x732f2f2f", "ins": "push"},
+            "42": {"arg": "ebx, esp", "ins": "mov"},
+            "44": {"arg": "edx, dword ptr [esp + 0x10]", "ins": "lea"},
+            "48": {"arg": "eax", "ins": "push"},
+            "49": {"arg": "esi", "ins": "push"},
+            "50": {"arg": "esp", "ins": "push"},
+            "51": {"arg": "ecx, esp", "ins": "mov"},
+            "53": {"arg": "al, 0xb", "ins": "mov"},
+            "55": {"arg": "0x80", "ins": "int"},
         },
-        '57': {
-            '57': {u'arg': u'ebx, eax', u'ins': u'mov'},
-            '59': {u'arg': u'eax, eax', u'ins': u'xor'},
-            '61': {u'arg': u'ecx, ecx', u'ins': u'xor'},
-            '63': {u'arg': u'edx, edx', u'ins': u'xor'},
-            '65': {u'arg': u'al, 7', u'ins': u'mov'},
-            '67': {u'arg': u'0x80', u'ins': u'int'}
-        }
+        "57": {
+            "57": {"arg": "ebx, eax", "ins": "mov"},
+            "59": {"arg": "eax, eax", "ins": "xor"},
+            "61": {"arg": "ecx, ecx", "ins": "xor"},
+            "63": {"arg": "edx, edx", "ins": "xor"},
+            "65": {"arg": "al, 7", "ins": "mov"},
+            "67": {"arg": "0x80", "ins": "int"},
+        },
     }

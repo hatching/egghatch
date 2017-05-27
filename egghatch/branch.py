@@ -2,16 +2,14 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-
-class BranchException:
+class BranchException(Exception):
     pass
 
-
-class Branch:
+class Branch(object):
     def __init__(self, ins):
         self.ins = ins
         if not self.is_branch():
-            raise BranchException('not a branch instruction')
+            raise BranchException("not a branch instruction")
 
         # TODO: this is hacky
         self.target = int(ins.op_str.encode()[2:], 16)
@@ -31,6 +29,3 @@ class Branch:
         if self.is_conditional():
             ret_to = self.ret_to
         return target, ret_to
-
-
-

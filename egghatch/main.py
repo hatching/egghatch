@@ -2,9 +2,9 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-from shellcode import Shellcode
 import sys
-import json
+
+from egghatch.shellcode import Shellcode
 
 def usage():
     print """usage:
@@ -12,10 +12,10 @@ def usage():
     sys.exit(-1)
 
 def main():
-    # no data on stdin 
+    # no data on stdin
     if sys.stdin.isatty():
         usage()
- 
+
     payload = sys.stdin.read()
     hatch = Shellcode(payload)
-    print hatch.print_json()
+    print hatch.to_json()
