@@ -25,10 +25,14 @@ class Branch(object):
             return False
 
     def is_branch(self):
-        return self.ins.mnemonic in ["call", "jmp", "jl", "jne", "jecxz"]
+        return self.ins.mnemonic in (
+            "call", "jmp", "jl", "je", "jne", "jecxz"
+        )
 
     def is_conditional(self):
-        return self.ins.mnemonic in ["jl", "jne", "jecxz"]
+        return self.ins.mnemonic in (
+            "jl", "je", "jne", "jecxz"
+        )
 
     def children(self):
         target, ret_to = self.target, None
