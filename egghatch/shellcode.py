@@ -12,45 +12,38 @@ class Shellcode(object):
     def __init__(self, payload):
         self.parser = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
         self.parser.detail = True
-        self.text, self.data = [], []
+        self.text, self.data = [], {}
 
         self.payload = payload
         self.parsed = {}
 
     def analyze(self):
-        # split executable code into basic blocks
-        self.text = self.basic_blocks(0)
-        # extract untouched bytes as data strings
-        self.data = self.extract_data()
+        # Split executable code into basic blocks.
+        self.basic_blocks(0)
+        self.text.sort(key=lambda x: x.base)
 
-        # TODO: use Block class
-        code_blocks = {}
-        for block in self.text:
-            code_blocks[block.base] = block.end
-
-        return {
-            "text": {
-                "blocks": code_blocks,
-            },
-            "data": {
-                "blocks": self.data,
-            },
-        }
+        # Extract untouched bytes as data strings.
+        self.extract_data()
 
     def print_block(self, start, end):
         print "[+] code block [0x%04x - 0x%04x]" % (start, end)
 
-    def to_json(self):
+    def to_dict(self):
         ret = {
+            "bbl": [],
             "text": {},
             "data": [],
         }
         self.analyze()
         for block in self.text:
+            ret["bbl"].append((block.base, block.end))
             ret["text"][block.base] = block.to_dict()
         for idx, data in sorted(self.data.items()):
             ret["data"].append((idx, data.decode("latin1")))
-        return json.dumps(ret, indent=4)
+        return ret
+
+    def to_json(self):
+        return json.dumps(self.to_dict(), indent=4)
 
     def basic_blocks(self, pos):
         block, branch = self.get_block(pos)
@@ -63,8 +56,6 @@ class Shellcode(object):
             for b in branch.children():
                 if b is not None and b not in self.parsed:
                     self.basic_blocks(b)
-
-        return self.text
 
     def get_block(self, pos):
         block, branch = None, None
@@ -83,7 +74,7 @@ class Shellcode(object):
         return block, branch
 
     def extract_data(self):
-        ret, parsed, bbls = {}, {}, []
+        parsed, bbls = {}, []
 
         for block in self.text:
             bbls.append((block.base, block.end))
@@ -101,5 +92,4 @@ class Shellcode(object):
             _, start = chunks[idx-1]
             end, _ = chunks[idx]
             if start != end:
-                ret[start] = self.payload[start:end]
-        return ret
+                self.data[start] = self.payload[start:end]

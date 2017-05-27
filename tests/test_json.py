@@ -10,6 +10,7 @@ from egghatch.shellcode import Shellcode
 def test_sd():
     sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
     assert json.loads(sc.to_json()) == {
+        "bbl": mock.ANY,
         "text": {
             "0": [
                 [0, "xor", "eax, eax"],
@@ -53,6 +54,7 @@ def test_sd():
 def test_bin1():
     sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())
     assert json.loads(sc.to_json()) == {
+        "bbl": mock.ANY,
         "text": mock.ANY,
         "data": [
             # TODO See also the TODO items in test_blocks.
