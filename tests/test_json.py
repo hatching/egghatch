@@ -3,47 +3,61 @@
 # See the file "docs/LICENSE" for copying permission.
 
 import json
+import mock
 
 from egghatch.shellcode import Shellcode
 
 def test_sd():
-    # http://shell-storm.org/shellcode/files/shellcode-554.php
     sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
-
     assert json.loads(sc.to_json()) == {
-        "0": {
-            "0": {"arg": "eax, eax", "ins": "xor"},
-            "2": {"arg": "ebx, ebx", "ins": "xor"},
-            "4": {"arg": "al, 2", "ins": "mov"},
-            "6": {"arg": "0x80", "ins": "int"},
-            "8": {"arg": "eax, ebx", "ins": "cmp"},
-            "10": {"arg": "0x39", "ins": "jne"},
+        "text": {
+            "0": [
+                [0, "xor", "eax, eax"],
+                [2, "xor", "ebx, ebx"],
+                [4, "mov", "al, 2"],
+                [6, "int", "0x80"],
+                [8, "cmp", "eax, ebx"],
+                [10, "jne", "0x39"],
+            ],
+            "12": [
+                [12, "xor", "eax, eax"],
+                [14, "push", "eax"],
+                [15, "push", "0x462d"],
+                [19, "mov", "esi, esp"],
+                [21, "push", "eax"],
+                [22, "push", "0x73656c62"],
+                [27, "push", "0x61747069"],
+                [32, "push", "0x2f6e6962"],
+                [37, "push", "0x732f2f2f"],
+                [42, "mov", "ebx, esp"],
+                [44, "lea", "edx, dword ptr [esp + 0x10]"],
+                [48, "push", "eax"],
+                [49, "push", "esi"],
+                [50, "push", "esp"],
+                [51, "mov", "ecx, esp"],
+                [53, "mov", "al, 0xb"],
+                [55, "int", "0x80"],
+            ],
+            "57": [
+                [57, "mov", "ebx, eax"],
+                [59, "xor", "eax, eax"],
+                [61, "xor", "ecx, ecx"],
+                [63, "xor", "edx, edx"],
+                [65, "mov", "al, 7"],
+                [67, "int", "0x80"],
+            ],
         },
-        "12": {
-            "12": {"arg": "eax, eax", "ins": "xor"},
-            "14": {"arg": "eax", "ins": "push"},
-            "15": {"arg": "0x462d", "ins": "push"},
-            "19": {"arg": "esi, esp", "ins": "mov"},
-            "21": {"arg": "eax", "ins": "push"},
-            "22": {"arg": "0x73656c62", "ins": "push"},
-            "27": {"arg": "0x61747069", "ins": "push"},
-            "32": {"arg": "0x2f6e6962", "ins": "push"},
-            "37": {"arg": "0x732f2f2f", "ins": "push"},
-            "42": {"arg": "ebx, esp", "ins": "mov"},
-            "44": {"arg": "edx, dword ptr [esp + 0x10]", "ins": "lea"},
-            "48": {"arg": "eax", "ins": "push"},
-            "49": {"arg": "esi", "ins": "push"},
-            "50": {"arg": "esp", "ins": "push"},
-            "51": {"arg": "ecx, esp", "ins": "mov"},
-            "53": {"arg": "al, 0xb", "ins": "mov"},
-            "55": {"arg": "0x80", "ins": "int"},
-        },
-        "57": {
-            "57": {"arg": "ebx, eax", "ins": "mov"},
-            "59": {"arg": "eax, eax", "ins": "xor"},
-            "61": {"arg": "ecx, ecx", "ins": "xor"},
-            "63": {"arg": "edx, edx", "ins": "xor"},
-            "65": {"arg": "al, 7", "ins": "mov"},
-            "67": {"arg": "0x80", "ins": "int"},
-        },
+        "data": [],
+    }
+
+def test_bin1():
+    sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())
+    assert json.loads(sc.to_json()) == {
+        "text": mock.ANY,
+        "data": [
+            # TODO See also the TODO items in test_blocks.
+            [0x06, mock.ANY],
+            [0xb9, "/282yG\x00"],
+            [0x14b, "www.service.chrome-up.date\x00"],
+        ],
     }

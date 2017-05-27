@@ -7,9 +7,7 @@ import mock
 from egghatch.shellcode import Shellcode
 
 def test_sd():
-    # http://shell-storm.org/shellcode/files/shellcode-554.php
     sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
-
     assert sc.analyze() == {
         "text": {
             "blocks": {
