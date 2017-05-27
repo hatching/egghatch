@@ -2,6 +2,8 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
+import mock
+
 from egghatch.shellcode import Shellcode
 
 def test_sd():
@@ -17,7 +19,7 @@ def test_sd():
             }
         },
         "data": {
-            "blocks": None
+            "blocks": {},
         }
     }
 
@@ -37,6 +39,14 @@ def test_bin1():
             },
         },
         "data": {
-            "blocks": None,
+            "blocks": {
+                # TODO Implement additional instruction tracking; we must
+                # identify the "call 0x88" -> "pop ebp" sequence in
+                # combination with "call ebp" instructions later on and
+                # determine that the address in ebp (@ offset 6) is also code.
+                6: mock.ANY,
+                0xb9: "/282yG\x00",
+                0x14b: "www.service.chrome-up.date\x00",
+            },
         },
     }

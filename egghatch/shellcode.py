@@ -14,7 +14,7 @@ class Shellcode(object):
         self.parser.detail = True
         self.text, self.data = [], []
 
-        self.payload = str(payload)
+        self.payload = payload
         self.parsed = {}
 
     def analyze(self):
@@ -53,7 +53,7 @@ class Shellcode(object):
             ret[i.address] = {
                 "ins": i.mnemonic, "arg": i.op_str
             }
-        return dict(ret)
+        return ret
 
     # recursively disassemble basic blocks
     def basic_blocks(self, pos):
@@ -87,6 +87,24 @@ class Shellcode(object):
 
         return block, branch
 
-    # TODO: extract untouched bytes as data strings
     def extract_data(self):
-        return None
+        ret, parsed, bbls = {}, {}, []
+
+        for block in self.text:
+            bbls.append((block.base, block.end))
+
+        # By iterating in reverse order we can append each basic block end to
+        # its next basic block start - assuming they're the same.
+        for start, end in sorted(bbls, reverse=True):
+            parsed[start] = parsed.pop(end, end)
+
+        # End terminator (if there's trailing data).
+        parsed[len(self.payload)] = len(self.payload)
+
+        chunks = sorted(parsed.items())
+        for idx in xrange(1, len(chunks)):
+            _, start = chunks[idx-1]
+            end, _ = chunks[idx]
+            if start != end:
+                ret[start] = self.payload[start:end]
+        return ret
