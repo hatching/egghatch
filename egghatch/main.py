@@ -6,16 +6,12 @@ import sys
 
 from egghatch.shellcode import Shellcode
 
-def usage():
-    print """usage:
-        echo -en \"\\xcc\\xcc\" | egghatch"""
-    sys.exit(-1)
-
 def main():
-    # no data on stdin
-    if sys.stdin.isatty():
-        usage()
+    if len(sys.argv) != 2:
+        print "Usage: python %s <sc.bin>" % sys.argv[0]
+        exit(1)
 
-    payload = sys.stdin.read()
-    hatch = Shellcode(payload)
-    print hatch.to_json()
+    print Shellcode(open(sys.argv[1], "rb").read()).to_json()
+
+def parse(payload):
+    return Shellcode(payload).to_dict()
