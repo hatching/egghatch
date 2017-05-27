@@ -1,15 +1,24 @@
 language: python
 
-python:
-    - 2.7
+matrix:
+  fast_finish: true
+  include:
+    - python: 2.7
+    - os: osx
+      language: generic
 
 before_install:
-  - sudo apt-get update -qq
+  - |
+    if [[ $TRAVIS_OS_NAME == "osx" ]]; then
+      brew update || brew update
+    else
+      sudo apt-get update -qq
+    fi
 
 install:
   - pip install -U pip setuptools
   - python setup.py develop
-  - pip install pytest pytest-cov codecov coveralls
+  - pip install mock pytest pytest-cov codecov coveralls
 
 script:
     - py.test --cov=egghatch
