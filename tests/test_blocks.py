@@ -6,8 +6,7 @@ from egghatch.shellcode import Shellcode
 
 def test_sd():
     # http://shell-storm.org/shellcode/files/shellcode-554.php
-    with open("tests/files/plain/sd.bin") as sd:
-        sc = Shellcode(sd.read())
+    sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
 
     assert sc.analyze() == {
         "text": {
@@ -20,4 +19,24 @@ def test_sd():
         "data": {
             "blocks": None
         }
+    }
+
+def test_bin1():
+    sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())
+    assert sc.analyze() == {
+        "text": {
+            "blocks": {
+                0x00: 0x06,
+                0x88: 0xb9,
+                0xc0: 0x105,
+                0x105: 0x108,
+                0x108: 0x10f,
+                0x10f: 0x143,
+                0x143: 0x145,
+                0x145: 0x14b,
+            },
+        },
+        "data": {
+            "blocks": None,
+        },
     }

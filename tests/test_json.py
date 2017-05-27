@@ -8,8 +8,7 @@ from egghatch.shellcode import Shellcode
 
 def test_sd():
     # http://shell-storm.org/shellcode/files/shellcode-554.php
-    with open("tests/files/plain/sd.bin") as sd:
-        sc = Shellcode(sd.read())
+    sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
 
     assert json.loads(sc.to_json()) == {
         "0": {
