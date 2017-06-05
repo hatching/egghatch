@@ -22,8 +22,8 @@ def as_text(payload):
 
     for start, end in sc["bbl"]:
         ret.append((start, "bbl_0x%04x:" % start))
-    for off, mnemonic, operands in sc["text"]:
-        ret.append((off, "    0x%04x: %s %s" % (off, mnemonic, operands)))
+    for addr, size, mnemonic, operands in sc["text"]:
+        ret.append((addr, "    0x%04x: %s %s" % (addr, mnemonic, operands)))
     for off, data in sc["data"]:
         ret.append((off, ".db %s" % str_as_db(data)))
 

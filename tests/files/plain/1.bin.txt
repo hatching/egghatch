@@ -1,7 +1,81 @@
 bbl_0x0000:
     0x0000: cld
     0x0001: call 0x88
-.db '`',137,229,'1',192,'d',139,'P0',139,'R',12,139,'R',20,139,'r(',15,183,'J&1',255,172,'<a|',2,', ',193,207,13,1,199,226,242,'RW',139,'R',16,139,'J<',139,'L',17,'x',227,'H',1,209,'Q',139,'Y ',1,211,139,'I',24,227,':I',139,'4',139,1,214,'1',255,172,193,207,13,1,199,'8',224,'u',246,3,'}',248,';}$u',228,'X',139,'X$',1,211,'f',139,12,'K',139,'X',28,1,211,139,4,139,1,208,137,'D$$[[aYZQ',255,224,'__Z',139,18,235,141
+bbl_0x0006:
+    0x0006: pushal
+    0x0007: mov ebp, esp
+    0x0009: xor eax, eax
+    0x000b: mov edx, dword ptr fs:[eax + 0x30]
+    0x000f: mov edx, dword ptr [edx + 0xc]
+    0x0012: mov edx, dword ptr [edx + 0x14]
+bbl_0x0015:
+    0x0015: mov esi, dword ptr [edx + 0x28]
+    0x0018: movzx ecx, word ptr [edx + 0x26]
+    0x001c: xor edi, edi
+bbl_0x001e:
+    0x001e: lodsb al, byte ptr [esi]
+    0x001f: cmp al, 0x61
+    0x0021: jl 0x25
+bbl_0x0023:
+    0x0023: sub al, 0x20
+bbl_0x0025:
+    0x0025: ror edi, 0xd
+    0x0028: add edi, eax
+    0x002a: loop 0x1e
+bbl_0x002c:
+    0x002c: push edx
+    0x002d: push edi
+    0x002e: mov edx, dword ptr [edx + 0x10]
+    0x0031: mov ecx, dword ptr [edx + 0x3c]
+    0x0034: mov ecx, dword ptr [ecx + edx + 0x78]
+    0x0038: jecxz 0x82
+bbl_0x003a:
+    0x003a: add ecx, edx
+    0x003c: push ecx
+    0x003d: mov ebx, dword ptr [ecx + 0x20]
+    0x0040: add ebx, edx
+    0x0042: mov ecx, dword ptr [ecx + 0x18]
+bbl_0x0045:
+    0x0045: jecxz 0x81
+bbl_0x0047:
+    0x0047: dec ecx
+    0x0048: mov esi, dword ptr [ebx + ecx*4]
+    0x004b: add esi, edx
+    0x004d: xor edi, edi
+bbl_0x004f:
+    0x004f: lodsb al, byte ptr [esi]
+    0x0050: ror edi, 0xd
+    0x0053: add edi, eax
+    0x0055: cmp al, ah
+    0x0057: jne 0x4f
+bbl_0x0059:
+    0x0059: add edi, dword ptr [ebp - 8]
+    0x005c: cmp edi, dword ptr [ebp + 0x24]
+    0x005f: jne 0x45
+bbl_0x0061:
+    0x0061: pop eax
+    0x0062: mov ebx, dword ptr [eax + 0x24]
+    0x0065: add ebx, edx
+    0x0067: mov cx, word ptr [ebx + ecx*2]
+    0x006b: mov ebx, dword ptr [eax + 0x1c]
+    0x006e: add ebx, edx
+    0x0070: mov eax, dword ptr [ebx + ecx*4]
+    0x0073: add eax, edx
+    0x0075: mov dword ptr [esp + 0x24], eax
+    0x0079: pop ebx
+    0x007a: pop ebx
+    0x007b: popal
+    0x007c: pop ecx
+    0x007d: pop edx
+    0x007e: push ecx
+    0x007f: jmp eax
+bbl_0x0081:
+    0x0081: pop edi
+bbl_0x0082:
+    0x0082: pop edi
+    0x0083: pop edx
+    0x0084: mov edx, dword ptr [edx]
+    0x0086: jmp 0x15
 bbl_0x0088:
     0x0088: pop ebp
     0x0089: push 0x74656e
@@ -43,6 +117,7 @@ bbl_0x00c0:
     0x00dd: xchg eax, esi
     0x00de: push 0xa
     0x00e0: pop edi
+bbl_0x00e1:
     0x00e1: push 0x3380
     0x00e6: mov eax, esp
     0x00e8: push 4
@@ -77,6 +152,7 @@ bbl_0x010f:
     0x0124: push ebx
     0x0125: push ebx
     0x0126: mov edi, esp
+bbl_0x0128:
     0x0128: push edi
     0x0129: push 0x2000
     0x012e: push ebx
