@@ -7,7 +7,7 @@ import setuptools
 
 setuptools.setup(
     name="egghatch",
-    version="0.1",
+    version="0.2",
     author="Jurriaan Bremer",
     author_email="jbr@cuckoo.sh",
     packages=[
