@@ -7,7 +7,7 @@ import setuptools
 
 setuptools.setup(
     name="egghatch",
-    version="0.2",
+    version="0.2.1",
     author="Jurriaan Bremer",
     author_email="jbr@cuckoo.sh",
     packages=[
@@ -43,10 +43,10 @@ setuptools.setup(
             "capstone-windows==3.0.4",
         ],
         ":sys_platform == 'darwin'": [
-            "capstone==3.0.4",
+            "capstone==3.0.5rc2",
         ],
         ":sys_platform == 'linux2'": [
-            "capstone==3.0.4",
+            "capstone==3.0.5rc2",
         ],
     },
     setup_requires=[
