@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# Copyright (C) 2017 Cuckoo Foundation.
+# Copyright (C) 2017-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
@@ -7,7 +6,7 @@ import setuptools
 
 setuptools.setup(
     name="egghatch",
-    version="0.2.1",
+    version="0.2.2",
     author="Jurriaan Bremer",
     author_email="jbr@cuckoo.sh",
     packages=[
