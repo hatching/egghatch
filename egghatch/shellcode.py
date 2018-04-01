@@ -1,14 +1,14 @@
-# Copyright (C) 2017 Cuckoo Foundation.
+# Copyright (C) 2017-2018 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
-import capstone
 import json
 
 from egghatch.block import Block
 
 class Shellcode(object):
     def __init__(self, payload):
+        import capstone
         self.parser = capstone.Cs(capstone.CS_ARCH_X86, capstone.CS_MODE_32)
         self.parser.detail = True
         self.insns = []

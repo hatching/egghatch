@@ -21,7 +21,9 @@ install:
   - pip install mock pytest pytest-cov codecov coveralls
 
 script:
-    - py.test --cov=egghatch
+  - py.test --cov=egghatch
+
+  - python -c 'import egghatch, sys ; assert "capstone" not in sys.modules'
 
 after_success:
   - coveralls
