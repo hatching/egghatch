@@ -6,7 +6,7 @@ import setuptools
 
 setuptools.setup(
     name="egghatch",
-    version="0.2.2",
+    version="0.2.3",
     author="Jurriaan Bremer",
     author_email="jbr@cuckoo.sh",
     packages=[
@@ -48,12 +48,4 @@ setuptools.setup(
             "capstone==3.0.5rc2",
         ],
     },
-    setup_requires=[
-        "pytest-runner",
-    ],
-    tests_require=[
-        "coveralls",
-        "pytest",
-        "mock==2.0.0",
-    ],
 )
