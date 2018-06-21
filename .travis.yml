@@ -5,12 +5,20 @@ matrix:
   include:
     - python: 2.7
     - os: osx
+      osx_image: xcode9.3beta
       language: generic
 
 before_install:
   - |
     if [[ $TRAVIS_OS_NAME == "osx" ]]; then
       brew update || brew update
+      # The following wasn't required in the past and therefore may become
+      # obsolete once again in the future. Let's wait and see.
+      wget https://bootstrap.pypa.io/get-pip.py
+      sudo python get-pip.py
+      sudo pip install virtualenv
+      virtualenv $HOME
+      source $HOME/bin/activate
     else
       sudo apt-get update -qq
     fi
