@@ -42,10 +42,10 @@ setuptools.setup(
             "capstone-windows==3.0.4",
         ],
         ":sys_platform == 'darwin'": [
-            "capstone==3.0.5rc2",
+            "capstone==3.0.5",
         ],
         ":sys_platform == 'linux2'": [
-            "capstone==3.0.5rc2",
+            "capstone==3.0.5",
         ],
     },
 )
