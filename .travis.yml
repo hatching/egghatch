@@ -26,11 +26,11 @@ before_install:
 
 install:
   - pip install -U pip setuptools
+  - pip install '.[dev]'
   - python setup.py develop
   - pip install mock pytest pytest-cov codecov coveralls
 
 script:
-  - pip3 install '.[dev]'
   - py.test --cov=egghatch
 
   - python -c 'import egghatch, sys ; assert "capstone" not in sys.modules'
