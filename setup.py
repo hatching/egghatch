@@ -48,5 +48,9 @@ setuptools.setup(
         ":sys_platform == 'linux2'": [
             "capstone==3.0.5",
         ],
+        "dev": [
+            "pytest==4.4.1",
+            "mock==2.0.0",
+        ]
     },
 )
