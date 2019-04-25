@@ -51,6 +51,7 @@ setuptools.setup(
         "dev": [
             "pytest==4.4.1",
             "mock==2.0.0",
+            "capstone==3.0.5",
         ]
     },
 )

@@ -27,7 +27,6 @@ before_install:
 install:
   - pip install -U pip setuptools
   - pip install '.[dev]'
-  - pip install ".[:sys_platform == 'linux2']"
   - python setup.py develop
   - pip install mock pytest pytest-cov codecov coveralls
 
