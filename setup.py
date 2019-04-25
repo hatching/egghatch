@@ -6,7 +6,7 @@ import setuptools
 
 setuptools.setup(
     name="egghatch",
-    version="0.2.3",
+    version="0.3",
     author="Jurriaan Bremer",
     author_email="jbr@cuckoo.sh",
     packages=[
@@ -22,13 +22,13 @@ setuptools.setup(
         "Natural Language :: English",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 2.7, 3.6",
         "Topic :: Security",
     ],
     url="https://cuckoosandbox.org/",
     license="GPLv3",
     description="Cuckoo Sandbox Shellcode Identification & Formatting",
-    long_description=open("README.rst", "rb").read(),
+    long_description=open("README.rst", "r").read(),
     include_package_data=True,
     entry_points={
         "console_scripts": [
@@ -36,16 +36,22 @@ setuptools.setup(
         ],
     },
     install_requires=[
+        "future",
     ],
     extras_require={
         ":sys_platform == 'win32'": [
             "capstone-windows==3.0.4",
         ],
         ":sys_platform == 'darwin'": [
-            "capstone==3.0.5rc2",
+            "capstone==3.0.5",
         ],
         ":sys_platform == 'linux2'": [
-            "capstone==3.0.5rc2",
+            "capstone==3.0.5",
         ],
+        "dev": [
+            "pytest==4.4.1",
+            "mock==2.0.0",
+            "capstone==3.0.5",
+        ]
     },
 )
