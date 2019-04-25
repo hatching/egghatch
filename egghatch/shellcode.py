@@ -5,6 +5,8 @@
 import json
 
 from egghatch.block import Block
+from builtins import range
+import base64
 
 class Shellcode(object):
     def __init__(self, payload):
@@ -36,7 +38,15 @@ class Shellcode(object):
         ret["bbl"] = sorted(self.bbl.items())
         ret["text"] = sorted(self.insns)
         for idx, data in sorted(self.data.items()):
-            ret["data"].append((idx, data.decode("latin1")))
+            if isinstance(data, str):
+                # Python2
+                ret["data"].append((idx, "".join(data.decode("utf-8"))))
+            elif isinstance(data, bytes):
+                # Python3
+                ret["data"].append((idx, "".join([chr(x) for x in data])))
+            else:
+                print("Warning, wrong type received in data : %s" % type(data))
+                ret = ""
         return ret
 
     def to_json(self):
@@ -135,7 +145,7 @@ class Shellcode(object):
                 continue
 
             op = insn2.operands
-            for _ in xrange(64):
+            for _ in range(64):
                 if insn2.addr + insn2.size not in insns:
                     break
 
@@ -156,7 +166,7 @@ class Shellcode(object):
         parsed[len(self.payload)] = len(self.payload)
 
         chunks = sorted(parsed.items())
-        for idx in xrange(1, len(chunks)):
+        for idx in range(1, len(chunks)):
             _, start = chunks[idx-1]
             end, _ = chunks[idx]
             if start != end and start < end:

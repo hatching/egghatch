@@ -2,6 +2,9 @@
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
 # See the file 'docs/LICENSE' for copying permission.
 
+from builtins import int
+from past.builtins import basestring
+
 def str_as_db(s):
     r1 = []
     for ch in s:
@@ -14,7 +17,8 @@ def str_as_db(s):
 
     r2, idx = [], 0
     while idx < len(r1):
-        if isinstance(r1[idx], (int, long)):
+        print(type(r1[idx]),isinstance(r1[idx], str))
+        if isinstance(r1[idx], int):
             r2.append("%s" % r1[idx])
             idx += 1
             continue
