@@ -28,7 +28,7 @@ setuptools.setup(
     url="https://cuckoosandbox.org/",
     license="GPLv3",
     description="Cuckoo Sandbox Shellcode Identification & Formatting",
-    long_description=open("README.rst", "rb").read(),
+    long_description=str(open("README.rst", "rb").read()),
     include_package_data=True,
     entry_points={
         "console_scripts": [
