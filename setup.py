@@ -22,7 +22,7 @@ setuptools.setup(
         "Natural Language :: English",
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.8",
         "Topic :: Security",
     ],
     url="https://cuckoosandbox.org/",
@@ -42,10 +42,10 @@ setuptools.setup(
             "capstone-windows==3.0.4",
         ],
         ":sys_platform == 'darwin'": [
-            "capstone==3.0.5rc2",
+            "capstone==4.0.2",
         ],
         ":sys_platform == 'linux2'": [
-            "capstone==3.0.5rc2",
+            "capstone==4.0.2",
         ],
     },
 )
