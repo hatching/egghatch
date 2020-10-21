@@ -7,6 +7,7 @@ import mock
 
 from egghatch.shellcode import Shellcode
 
+
 def test_sd():
     sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
     assert json.loads(sc.to_json()) == {
@@ -49,6 +50,7 @@ def test_sd():
         "data": [],
     }
 
+
 def test_bin1():
     sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())
     assert json.loads(sc.to_json()) == {
@@ -59,6 +61,7 @@ def test_bin1():
             [0x14b, "www.service.chrome-up.date\x00"],
         ],
     }
+
 
 def test_bin2():
     sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())

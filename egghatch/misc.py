@@ -14,12 +14,12 @@ def str_as_db(s):
 
     r2, idx = [], 0
     while idx < len(r1):
-        if isinstance(r1[idx], (int, long)):
+        if isinstance(r1[idx], (int, float)):
             r2.append("%s" % r1[idx])
             idx += 1
             continue
         jdx = idx
-        while idx < len(r1) and isinstance(r1[idx], basestring):
+        while idx < len(r1) and isinstance(r1[idx], str):
             idx += 1
         r2.append("'%s'" % "".join(r1[jdx:idx]))
 

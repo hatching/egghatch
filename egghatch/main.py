@@ -7,15 +7,18 @@ import sys
 from egghatch.misc import str_as_db
 from egghatch.shellcode import Shellcode
 
+
 def main():
     if len(sys.argv) != 2:
-        print "Usage: python %s <sc.bin>" % sys.argv[0]
+        print("Usage: python %s <sc.bin>" % sys.argv[0])
         exit(1)
 
-    print Shellcode(open(sys.argv[1], "rb").read()).to_json()
+    print(Shellcode(open(sys.argv[1], "rb").read()).to_json())
+
 
 def parse(payload):
     return Shellcode(payload).to_dict()
+
 
 def as_text(payload):
     ret, sc = [], Shellcode(payload).to_dict()
