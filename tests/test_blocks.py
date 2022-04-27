@@ -6,7 +6,7 @@ from egghatch.shellcode import Shellcode
 
 
 def test_parse():
-    sc = Shellcode("\x90\x75\x02\x90\x90\x90")
+    sc = Shellcode(b"\x90\x75\x02\x90\x90\x90")
     assert sc.to_dict() == {
         "text": [
             (0, 1, "nop", ""),
