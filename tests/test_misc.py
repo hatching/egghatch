@@ -4,6 +4,7 @@
 
 from egghatch.misc import str_as_db
 
+
 def test_str_as_db():
     assert str_as_db("\x00") == "0"
     assert str_as_db("foo") == "'foo'"

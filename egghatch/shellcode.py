@@ -6,6 +6,7 @@ import json
 
 from egghatch.block import Block
 
+
 class Shellcode(object):
     def __init__(self, payload):
         import capstone
@@ -63,14 +64,14 @@ class Shellcode(object):
     def add_bbl(self, start, end):
         bbl_r = dict((v, k) for k, v in self.bbl.items())
         for start_, end_ in self.bbl.items():
-            if start >= start_ and start < end_:
+            if start_ <= start < end_:
                 self.bbl[start_] = start
                 self.bbl[start] = end_
                 break
             if start < start_ and end == end_:
                 self.bbl[start] = bbl_r.get(start_, start_)
                 break
-            if end and end > start_ and end <= end_:
+            if end and start_ < end <= end_:
                 self.bbl[start] = start_
                 self.bbl[start_] = end
                 if end != end_:
@@ -135,7 +136,7 @@ class Shellcode(object):
                 continue
 
             op = insn2.operands
-            for _ in xrange(64):
+            for _ in range(64):
                 if insn2.addr + insn2.size not in insns:
                     break
 
@@ -156,7 +157,7 @@ class Shellcode(object):
         parsed[len(self.payload)] = len(self.payload)
 
         chunks = sorted(parsed.items())
-        for idx in xrange(1, len(chunks)):
+        for idx in range(1, len(chunks)):
             _, start = chunks[idx-1]
             end, _ = chunks[idx]
             if start != end and start < end:

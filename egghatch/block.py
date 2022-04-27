@@ -8,6 +8,7 @@ Instruction = collections.namedtuple(
     "Instruction", ("addr", "size", "mnemonic", "operands")
 )
 
+
 class Block(object):
     stop_insns = (
         "jmp", "jecxz", "ret", "loop", "loope", "loopne",

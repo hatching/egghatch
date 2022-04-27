@@ -4,8 +4,9 @@
 
 from egghatch.shellcode import Shellcode
 
+
 def test_parse():
-    sc = Shellcode("\x90\x75\x02\x90\x90\x90")
+    sc = Shellcode(b"\x90\x75\x02\x90\x90\x90")
     assert sc.to_dict() == {
         "text": [
             (0, 1, "nop", ""),
@@ -21,6 +22,7 @@ def test_parse():
         ],
         "data": [],
     }
+
 
 def test_add_bbl1():
     sc = Shellcode("")
@@ -38,6 +40,7 @@ def test_add_bbl1():
         130: 136,
         136: 192,
     }
+
 
 def test_add_bbl2():
     sc = Shellcode("")
@@ -58,6 +61,7 @@ def test_add_bbl2():
         290: 308,
     }
 
+
 def test_sd():
     sc = Shellcode(open("tests/files/plain/sd.bin", "rb").read())
     assert sc.to_dict()["bbl"] == [
@@ -65,6 +69,7 @@ def test_sd():
         (0x0c, 0x39),
         (0x39, 0x45),
     ]
+
 
 def test_bin1():
     sc = Shellcode(open("tests/files/plain/1.bin", "rb").read())
@@ -100,6 +105,7 @@ def test_bin1():
         (0x14b, "www.service.chrome-up.date\x00"),
     ]
 
+
 def test_bin2():
     sc = Shellcode(open("tests/files/plain/2.bin", "rb").read())
     assert sc.to_dict()["bbl"] == [
@@ -130,6 +136,7 @@ def test_bin2():
     assert sc.to_dict()["data"] == [
         (192, "ddos400.ddns.net\x00"),
     ]
+
 
 def test_bin3():
     sc = Shellcode(open("tests/files/plain/3.bin", "rb").read())

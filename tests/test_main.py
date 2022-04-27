@@ -4,6 +4,7 @@
 
 from egghatch import parse, as_text
 
+
 def test_parse():
     assert parse("\xfc\xeb\xfe") == {
         "bbl": [
@@ -17,6 +18,7 @@ def test_parse():
         "data": [],
     }
 
+
 def test_as_text_cld_jmpinf():
     assert as_text("\xfc\xeb\xfe") == (
         "bbl_0x0000:\n"
@@ -24,6 +26,7 @@ def test_as_text_cld_jmpinf():
         "bbl_0x0001:\n"
         "    0x0001: jmp 1\n"
     )
+
 
 def test_as_text_sc():
     def f(filename):
